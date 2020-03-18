@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\PayX.Core\PayX.Core.csproj" />
+    <ProjectReference Include="..\PayX.Service\PayX.Service.csproj" />
+    <ProjectReference Include="..\PayX.Data\PayX.Data.csproj" />
+    <ProjectReference Include="..\PayX.Bank\PayX.Bank.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+
+</Project>
