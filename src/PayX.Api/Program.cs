@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PayX.Api.Extensions;
+using Serilog;
+using Serilog.Events;
 
 namespace PayX.Api
 {
@@ -21,6 +24,7 @@ namespace PayX.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureSerilog();
     }
 }
