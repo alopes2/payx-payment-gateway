@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PayX.Api.Extensions;
 using Serilog;
 
 namespace PayX.Api
@@ -38,6 +39,8 @@ namespace PayX.Api
             }
 
             app.UseSerilogRequestLogging();
+
+            app.UseGlobalExceptionHandler();
             
             app.UseHttpsRedirection();
 
