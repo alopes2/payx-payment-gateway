@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PayX.Api.Extensions;
+using PayX.Api.Metrics;
+using Prometheus;
 using Serilog;
 
 namespace PayX.Api
@@ -28,6 +30,8 @@ namespace PayX.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IMetricsService, MetricsService>();
+
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -52,11 +56,14 @@ namespace PayX.Api
 
             app.UseRouting();
 
+            app.UseMetrics();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapMetrics();
             });
 
             app.UseSwagger();
