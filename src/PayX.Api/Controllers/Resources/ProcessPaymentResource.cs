@@ -14,6 +14,6 @@ namespace PayX.Api.Controllers.Resources
 
         public decimal Amount { get; set; }
 
-        public int CurrencyId { get; set; }
+        public Guid CurrencyId { get; set; }
     }
 }

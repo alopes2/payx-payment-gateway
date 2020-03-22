@@ -41,6 +41,7 @@ namespace PayX.Api
             services.AddSingleton<IMetricsService, MetricsService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ICurrencyService, CurrencyService>();
+            services.AddTransient<IPaymentService, PaymentService>();
 
             services.AddAutoMapper(typeof(Startup));
 
