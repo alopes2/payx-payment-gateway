@@ -20,9 +20,11 @@ namespace PayX.Data.Repositories
 
         public async Task<User> GetByEmail(string email)
         {
+            var normalizedEmail = email.ToLower();
+
             return await _dbContext
                 .Users
-                .SingleOrDefaultAsync(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+                .SingleOrDefaultAsync(u => u.Email.Equals(normalizedEmail));
         }
     }
 }
