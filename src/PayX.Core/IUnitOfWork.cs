@@ -10,6 +10,8 @@ namespace PayX.Core
         IPaymentRepository Payments { get; }
 
         ICurrencyRepository Currencies { get; }
+
+        IUserRepository Users { get; }
         
         Task<int> CommitAsync();
     }
