@@ -34,3 +34,4 @@ This is our Acquiring Bank implementation (here we are mocking a banking service
 * (Serilog 3.2.0)[https://github.com/serilog/serilog] - Logging library
 * (Prometheus-net 3.5.0)[https://github.com/prometheus-net/prometheus-net] - Metrics libray
 * (Swashbuckle 5.1.0)[https://github.com/domaindrivendev/Swashbuckle.AspNetCore] - ASPNET.Core API documentation
+* (AutoMapper 9.0.0)[https://github.com/AutoMapper/AutoMapper] - Mapping library

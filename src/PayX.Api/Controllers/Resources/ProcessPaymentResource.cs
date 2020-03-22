@@ -2,7 +2,7 @@ using System;
 
 namespace PayX.Api.Controllers.Resources
 {
-    public class SavePaymentResource
+    public class ProcessPaymentResource
     {
         public string CardNumber { get; set; }
 

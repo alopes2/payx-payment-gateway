@@ -132,7 +132,7 @@ namespace PayX.Api.Controllers
 
         // POST: payments
         [HttpPost]
-        public async Task<ActionResult<PaymentResource>> CreatePayment([FromBody] SavePaymentResource savePaymentResource)
+        public async Task<ActionResult<PaymentResource>> ProcessPayment([FromBody] ProcessPaymentResource savePaymentResource)
         {
             var payment = new Payment
             {

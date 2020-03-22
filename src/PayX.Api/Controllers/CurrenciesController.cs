@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PayX.Api.Controllers.Resources;
 using PayX.Core.Models;
@@ -14,8 +15,10 @@ namespace PayX.Api.Controllers
     public class CurrenciesController : ControllerBase
     {
         private readonly ICurrencyService _service;
-        public CurrenciesController(ICurrencyService service)
+        private readonly IMapper _mapper;
+        public CurrenciesController(IMapper mapper, ICurrencyService service)
         {
+            _mapper = mapper;
             _service = service;
         }
 
@@ -25,33 +28,22 @@ namespace PayX.Api.Controllers
         {
             var currencies = await _service.GetAllCurrencies();
 
-            var currencyResources = currencies.Select(c => new CurrencyResource
-            {
-                Id = c.Id,
-                Name = c.Name
-            });
+            var currencyResources = 
+                _mapper.Map<IEnumerable<Currency>, IEnumerable<CurrencyResource>>(currencies);
 
             return Ok(currencyResources);
         }
 
-        // Post: currenies
+        // Post: currencies
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<CurrencyResource>>> GetCurrencies([FromBody] string currencyName)
+        public async Task<ActionResult<CurrencyResource>> CreateCurrency([FromBody] string currencyName)
         {
-            var currency = new Currency
-            {
-                Name = currencyName
-            };
+            var newCurrency = await _service.CreateCurrency(currencyName);
 
-            var newCurrency = await _service.CreateCurrency(currency);
+            var currencyResource =
+                _mapper.Map<Currency, CurrencyResource>(newCurrency);
 
-            var currencyResources = new CurrencyResource
-            {
-                Id = newCurrency.Id,
-                Name = newCurrency.Name
-            };
-
-            return Ok(currencyResources);
+            return Ok(currencyResource);
         }
     }
 }

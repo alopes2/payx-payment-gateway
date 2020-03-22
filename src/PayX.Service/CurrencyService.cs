@@ -23,8 +23,13 @@ namespace PayX.Service
             return currencies;
         }
 
-        public async Task<Currency> CreateCurrency(Currency currency)
+        public async Task<Currency> CreateCurrency(string currencyName)
         {
+            var currency = new Currency
+            {
+                Name = currencyName
+            };
+            
             await _unitOfWork.Currencies.AddAsync(currency);
             await _unitOfWork.CommitAsync();
             

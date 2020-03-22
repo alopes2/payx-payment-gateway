@@ -8,6 +8,6 @@ namespace PayX.Core.Services
     {
         Task<IEnumerable<Currency>> GetAllCurrencies();
 
-        Task<Currency> CreateCurrency(Currency currency);
+        Task<Currency> CreateCurrency(string currencyName);
     }
 }
