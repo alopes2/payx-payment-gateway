@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using PayX.Core.Models;
+using PayX.Core.Models.Auth;
 
 namespace PayX.Data
 {
@@ -10,6 +11,8 @@ namespace PayX.Data
         public DbSet<Payment> Payments { get; set; }
 
         public DbSet<Currency> Currencies { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         public PayXDbContext(DbContextOptions<PayXDbContext> options)
             : base(options)

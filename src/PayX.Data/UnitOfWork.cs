@@ -13,6 +13,8 @@ namespace PayX.Data
 
         private CurrencyRepository _currencyRepository;
 
+        private UserRepository _userRepository;
+
         public UnitOfWork(PayXDbContext context)
         {
             _context = context;
@@ -21,6 +23,8 @@ namespace PayX.Data
         public IPaymentRepository Payments => _paymentRepository = _paymentRepository ?? new PaymentRepository(_context);
 
         public ICurrencyRepository Currencies => _currencyRepository = _currencyRepository ?? new CurrencyRepository(_context);
+
+        public IUserRepository Users => _userRepository = _userRepository ?? new UserRepository(_context);
 
         public async Task<int> CommitAsync()
         {
