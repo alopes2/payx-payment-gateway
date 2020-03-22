@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PayX.Api.Extensions;
 using PayX.Api.Metrics;
+using PayX.Data;
 using Prometheus;
 using Serilog;
 
@@ -33,6 +35,10 @@ namespace PayX.Api
             services.AddSingleton<IMetricsService, MetricsService>();
 
             services.AddControllers();
+
+            var payxDataAssemblyName = typeof(PayXDbContext).Assembly.GetName().Name;
+
+            services.AddDbContext<PayXDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), x => x.MigrationsAssembly(payxDataAssemblyName)));
 
             services.AddSwaggerGen(c =>
             {
