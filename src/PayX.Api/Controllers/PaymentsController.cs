@@ -18,7 +18,7 @@ namespace PayX.Api.Controllers
         {
             new Currency
             {
-                Id = new Guid("c48ab9b3-1f23-461a-a993-c6c040eb7d6b"),
+                Id = new Guid("c48ab9b3-1f23-461a-a993-c6c040eb7d6a"),
                 Name = "EUR"
             },
             new Currency 
