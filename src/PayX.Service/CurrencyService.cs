@@ -22,5 +22,13 @@ namespace PayX.Service
 
             return currencies;
         }
+
+        public async Task<Currency> CreateCurrency(Currency currency)
+        {
+            await _unitOfWork.Currencies.AddAsync(currency);
+            await _unitOfWork.CommitAsync();
+            
+            return currency;
+        }
     }
 }

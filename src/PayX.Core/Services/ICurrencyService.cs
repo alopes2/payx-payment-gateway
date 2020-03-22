@@ -7,5 +7,7 @@ namespace PayX.Core.Services
     public interface ICurrencyService
     {
         Task<IEnumerable<Currency>> GetAllCurrencies();
+
+        Task<Currency> CreateCurrency(Currency currency);
     }
 }

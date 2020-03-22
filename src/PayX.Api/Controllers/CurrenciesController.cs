@@ -33,5 +33,25 @@ namespace PayX.Api.Controllers
 
             return Ok(currencyResources);
         }
+
+        // Post: currenies
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<CurrencyResource>>> GetCurrencies([FromBody] string currencyName)
+        {
+            var currency = new Currency
+            {
+                Name = currencyName
+            };
+
+            var newCurrency = await _service.CreateCurrency(currency);
+
+            var currencyResources = new CurrencyResource
+            {
+                Id = newCurrency.Id,
+                Name = newCurrency.Name
+            };
+
+            return Ok(currencyResources);
+        }
     }
 }
