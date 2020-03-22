@@ -4,6 +4,10 @@
     <ProjectReference Include="..\PayX.Core\PayX.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next.StrongName" Version="3.3.3" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>

@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using PayX.Core;
+using PayX.Core.Models.Auth;
+using PayX.Core.Services;
+
+namespace PayX.Service
+{
+    public class AuthService : IAuthService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public AuthService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<User> SignInAsync(string email, string password)
+        {
+            var user = await _unitOfWork.Users.GetByEmail(email);
+
+            var isValid = BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password);
+            if (isValid)
+            {
+                return user;
+            }
+
+            throw new Exception();
+        }
+
+        public async Task<User> SignUpAsync(string email, string password)
+        {
+            var user = new User
+            {
+                Email = email,
+                Password = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 12)
+            };
+
+            await _unitOfWork.Users.AddAsync(user);
+            await _unitOfWork.CommitAsync();
+
+            return user;
+        }
+    }
+}
