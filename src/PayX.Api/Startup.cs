@@ -17,6 +17,7 @@ using PayX.Api.Metrics;
 using PayX.Data;
 using Prometheus;
 using Serilog;
+using PayX.Core;
 
 namespace PayX.Api
 {
@@ -32,14 +33,15 @@ namespace PayX.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IMetricsService, MetricsService>();
-
             services.AddControllers();
 
             var payxDataAssemblyName = typeof(PayXDbContext).Assembly.GetName().Name;
 
             services.AddDbContext<PayXDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), x => x.MigrationsAssembly(payxDataAssemblyName)));
 
+            services.AddSingleton<IMetricsService, MetricsService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PayX - Payment Gateway", Version = "v1" });
