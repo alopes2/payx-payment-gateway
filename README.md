@@ -30,6 +30,7 @@ This is our Acquiring Bank implementation (here we are mocking a banking service
 ## Dependencies
 
 * (.NET Core SDK 3.1.200)[https://dotnet.microsoft.com/download/dotnet-core/3.1] - C# Backend Framework
+* (Entity Framework Core 3.1.2)[https://github.com/dotnet/efcore] - Object-database mapper
 * (Serilog 3.2.0)[https://github.com/serilog/serilog] - Logging library
 * (Prometheus-net 3.5.0)[https://github.com/prometheus-net/prometheus-net] - Metrics libray
 * (Swashbuckle 5.1.0)[https://github.com/domaindrivendev/Swashbuckle.AspNetCore] - ASPNET.Core API documentation
