@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayX.Data;
 
 namespace PayX.Data.Migrations
 {
     [DbContext(typeof(PayXDbContext))]
-    partial class PayXDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200322202520_SeedCurrencyData")]
+    partial class SeedCurrencyData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
