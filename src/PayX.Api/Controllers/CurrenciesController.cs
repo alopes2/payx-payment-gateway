@@ -41,6 +41,11 @@ namespace PayX.Api.Controllers
         [Authorize(Roles = nameof(Role.Admin))]
         public async Task<ActionResult<CurrencyResource>> CreateCurrency([FromBody] string currencyName)
         {
+            if (string.IsNullOrWhiteSpace(currencyName))
+            {
+                return BadRequest("Currency name should not be empty.");
+            }
+
             var newCurrency = await _service.CreateCurrency(currencyName);
 
             var currencyResource =

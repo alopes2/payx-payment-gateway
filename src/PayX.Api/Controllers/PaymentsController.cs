@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,8 +25,11 @@ namespace PayX.Api.Controllers
 
         private readonly IMapper _mapper;
 
-        public PaymentsController(IMapper mapper, IPaymentService service)
+        private readonly IValidator<ProcessPaymentResource> _processValidator;
+
+        public PaymentsController(IMapper mapper, IValidator<ProcessPaymentResource> processValidator, IPaymentService service)
         {
+            _processValidator = processValidator;
             _mapper = mapper;
             _service = service;
         }
@@ -36,10 +40,10 @@ namespace PayX.Api.Controllers
         {
             var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
             var userId = new Guid(userIdClaim.Value);
-            
+
             var payments = await _service.GetAllUserPayments(userId);
 
-            var paymentResources = 
+            var paymentResources =
                 _mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentResource>>(payments);
 
             return Ok(paymentResources);
@@ -49,6 +53,11 @@ namespace PayX.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentResource>> GetPaymentById([FromRoute] Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return BadRequest("Id not provided.");
+            }
+
             var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
             var userId = new Guid(userIdClaim.Value);
 
@@ -63,12 +72,18 @@ namespace PayX.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentResource>> ProcessPayment([FromBody] ProcessPaymentResource processPaymentResource)
         {
+            var validationResult = _processValidator.Validate(processPaymentResource);
+            if(!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
             var userId = new Guid(userIdClaim.Value);
 
             var paymentToProcess = _mapper.Map<ProcessPaymentResource, Payment>(processPaymentResource);
             paymentToProcess.UserId = userId;
-            
+
             var newPayment = await _service.ProcessPayment(paymentToProcess);
 
             var payment = await _service.GetUserPaymentById(newPayment.Id, userId);

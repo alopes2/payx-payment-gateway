@@ -60,6 +60,7 @@ namespace PayX.Api
             services.AddTransient<IBankService, BankService>();
 
             services.AddTransient<IValidator<AuthResource>, AuthResourceValidator>();
+            services.AddTransient<IValidator<ProcessPaymentResource>, ProcessPaymentResourceValidator>();
 
             services.AddAutoMapper(typeof(Startup));
 
