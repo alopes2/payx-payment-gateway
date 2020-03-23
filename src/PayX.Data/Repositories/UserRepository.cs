@@ -18,7 +18,7 @@ namespace PayX.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<User> GetByEmail(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
             var normalizedEmail = email.ToLower();
 

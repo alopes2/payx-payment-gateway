@@ -16,14 +16,14 @@ namespace PayX.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Currency>> GetAllCurrencies()
+        public async Task<IEnumerable<Currency>> GetAllCurrenciesAsync()
         {
             var currencies = await _unitOfWork.Currencies.GetAllAsync();
 
             return currencies;
         }
 
-        public async Task<Currency> CreateCurrency(string currencyName)
+        public async Task<Currency> CreateCurrencyAsync(string currencyName)
         {
             var currency = new Currency
             {

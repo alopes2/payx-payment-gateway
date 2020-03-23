@@ -26,9 +26,9 @@ namespace PayX.Api.Controllers
 
         // GET: currenies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CurrencyResource>>> GetCurrencies()
+        public async Task<ActionResult<IEnumerable<CurrencyResource>>> GetCurrenciesAsync()
         {
-            var currencies = await _service.GetAllCurrencies();
+            var currencies = await _service.GetAllCurrenciesAsync();
 
             var currencyResources = 
                 _mapper.Map<IEnumerable<Currency>, IEnumerable<CurrencyResource>>(currencies);
@@ -39,14 +39,14 @@ namespace PayX.Api.Controllers
         // Post: currencies
         [HttpPost]
         [Authorize(Roles = nameof(Role.Admin))]
-        public async Task<ActionResult<CurrencyResource>> CreateCurrency([FromBody] string currencyName)
+        public async Task<ActionResult<CurrencyResource>> CreateCurrencyAsync([FromBody] string currencyName)
         {
             if (string.IsNullOrWhiteSpace(currencyName))
             {
                 return BadRequest("Currency name should not be empty.");
             }
 
-            var newCurrency = await _service.CreateCurrency(currencyName);
+            var newCurrency = await _service.CreateCurrencyAsync(currencyName);
 
             var currencyResource =
                 _mapper.Map<Currency, CurrencyResource>(newCurrency);

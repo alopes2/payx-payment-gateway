@@ -36,12 +36,12 @@ namespace PayX.Api.Controllers
 
         // GET: payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PaymentResource>>> GetPayments()
+        public async Task<ActionResult<IEnumerable<PaymentResource>>> GetPaymentsAsync()
         {
             var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
             var userId = new Guid(userIdClaim.Value);
 
-            var payments = await _service.GetAllUserPayments(userId);
+            var payments = await _service.GetAllUserPaymentsAsync(userId);
 
             var paymentResources =
                 _mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentResource>>(payments);
@@ -51,7 +51,7 @@ namespace PayX.Api.Controllers
 
         // GET: payments/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<PaymentResource>> GetPaymentById([FromRoute] Guid id)
+        public async Task<ActionResult<PaymentResource>> GetPaymentByIdAsync([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -61,7 +61,7 @@ namespace PayX.Api.Controllers
             var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
             var userId = new Guid(userIdClaim.Value);
 
-            var payment = await _service.GetUserPaymentById(id, userId);
+            var payment = await _service.GetUserPaymentByIdAsync(id, userId);
 
             var paymentResource = _mapper.Map<Payment, PaymentResource>(payment);
 
@@ -70,7 +70,7 @@ namespace PayX.Api.Controllers
 
         // POST: payments
         [HttpPost]
-        public async Task<ActionResult<PaymentResource>> ProcessPayment([FromBody] ProcessPaymentResource processPaymentResource)
+        public async Task<ActionResult<PaymentResource>> ProcessPaymentAsync([FromBody] ProcessPaymentResource processPaymentResource)
         {
             var validationResult = _processValidator.Validate(processPaymentResource);
             if(!validationResult.IsValid)
@@ -84,9 +84,9 @@ namespace PayX.Api.Controllers
             var paymentToProcess = _mapper.Map<ProcessPaymentResource, Payment>(processPaymentResource);
             paymentToProcess.UserId = userId;
 
-            var newPayment = await _service.ProcessPayment(paymentToProcess);
+            var newPayment = await _service.ProcessPaymentAsync(paymentToProcess);
 
-            var payment = await _service.GetUserPaymentById(newPayment.Id, userId);
+            var payment = await _service.GetUserPaymentByIdAsync(newPayment.Id, userId);
 
             var paymentResource = _mapper.Map<Payment, PaymentResource>(payment);
 

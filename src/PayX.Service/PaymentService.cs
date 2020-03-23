@@ -21,7 +21,7 @@ namespace PayX.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Payment>> GetAllUserPayments(Guid userId)
+        public async Task<IEnumerable<Payment>> GetAllUserPaymentsAsync(Guid userId)
         {
             var payments = await _unitOfWork.Payments
                 .GetAllWithCurrencyByUserIdAsync(userId);
@@ -29,7 +29,7 @@ namespace PayX.Service
             return payments;
         }
 
-        public async Task<Payment> GetUserPaymentById(Guid paymentId, Guid userId)
+        public async Task<Payment> GetUserPaymentByIdAsync(Guid paymentId, Guid userId)
         {
             var payment = await _unitOfWork.Payments
                 .GetWithCurrencyByIdAsync(paymentId);
@@ -47,7 +47,7 @@ namespace PayX.Service
             return payment;
         }
 
-        public async Task<Payment> ProcessPayment(Payment newPayment)
+        public async Task<Payment> ProcessPaymentAsync(Payment newPayment)
         {
             var currency = await _unitOfWork
                 .Currencies

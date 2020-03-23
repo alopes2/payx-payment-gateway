@@ -7,10 +7,10 @@ namespace PayX.Core.Services
 {
     public interface IPaymentService
     {
-        Task<IEnumerable<Payment>> GetAllUserPayments(Guid userId);
+        Task<IEnumerable<Payment>> GetAllUserPaymentsAsync(Guid userId);
 
-        Task<Payment> GetUserPaymentById(Guid paymentId, Guid userId);
+        Task<Payment> GetUserPaymentByIdAsync(Guid paymentId, Guid userId);
 
-        Task<Payment> ProcessPayment(Payment newPayment);
+        Task<Payment> ProcessPaymentAsync(Payment newPayment);
     }
 }

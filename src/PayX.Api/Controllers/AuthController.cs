@@ -38,7 +38,7 @@ namespace PayX.Api.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<ActionResult<string>> SignUp([FromBody] AuthResource credentials)
+        public async Task<ActionResult<string>> SignUpAsync([FromBody] AuthResource credentials)
         {
             var validationResult = _validator.Validate(credentials);
             if(!validationResult.IsValid)
@@ -52,7 +52,7 @@ namespace PayX.Api.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<ActionResult<string>> SignIn([FromBody] AuthResource credentials)
+        public async Task<ActionResult<string>> SignInAsync([FromBody] AuthResource credentials)
         {
             var validationResult = _validator.Validate(credentials);
             if(!validationResult.IsValid)
