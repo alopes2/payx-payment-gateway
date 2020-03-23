@@ -1,4 +1,5 @@
 ﻿using System;
+using PayX.Core.Models.Auth;
 
 namespace PayX.Core.Models
 {
@@ -23,5 +24,9 @@ namespace PayX.Core.Models
         public bool IsSuccessful { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public Guid UserId { get; set; }
+
+        public User User { get; set; }
     }
 }

@@ -39,6 +39,15 @@ namespace PayX.Data.Configurations
                 .IsRequired();
 
             builder
+                .Property(p => p.UserId)
+                .IsRequired();
+
+            builder
+                .HasOne(p => p.User)
+                .WithMany(u => u.Payments)
+                .HasForeignKey(p => p.UserId);
+
+            builder
                 .Property(p => p.Cvv)
                 .HasMaxLength(999)
                 .IsRequired();
