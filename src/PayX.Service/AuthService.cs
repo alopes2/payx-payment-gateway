@@ -36,7 +36,7 @@ namespace PayX.Service
         public async Task<User> SignUpAsync(string email, string password)
         {
             var normalizedEmail = email.ToLower();
-            var existingUser = await _unitOfWork.Users.SingleOrDefaultAsync(u => u.Email.Equals(normalizedEmail));
+            var existingUser = await _unitOfWork.Users.GetByEmailAsync(normalizedEmail);
             if (existingUser != null)
             {
                 throw new HttpResponseException("User with this email already exists.")

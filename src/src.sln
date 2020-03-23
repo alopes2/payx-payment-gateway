@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayX.Data", "PayX.Data\PayX
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayX.Service", "PayX.Service\PayX.Service.csproj", "{E4CFFBAF-0F28-4991-9513-E83ABDD6ADB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayX.UnitTests", "PayX.UnitTests\PayX.UnitTests.csproj", "{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{E4CFFBAF-0F28-4991-9513-E83ABDD6ADB7}.Release|x64.Build.0 = Release|Any CPU
 		{E4CFFBAF-0F28-4991-9513-E83ABDD6ADB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4CFFBAF-0F28-4991-9513-E83ABDD6ADB7}.Release|x86.Build.0 = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|x64.Build.0 = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{4EC1AA1B-3367-4CE1-A213-FC5F8B8897AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
