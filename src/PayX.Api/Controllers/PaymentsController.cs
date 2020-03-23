@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PayX.Api.Controllers.Resources;
+using PayX.Api.Models;
 using PayX.Core.Extensions;
 using PayX.Core.Models;
 using PayX.Core.Services;
@@ -14,6 +17,7 @@ namespace PayX.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Policy = Policies.CanManagePayments)]
     public class PaymentsController : ControllerBase
     {
         private readonly IPaymentService _service;

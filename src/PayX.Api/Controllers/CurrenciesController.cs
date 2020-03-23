@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PayX.Api.Controllers.Resources;
 using PayX.Core.Models;
+using PayX.Core.Models.Auth;
 using PayX.Core.Services;
 
 namespace PayX.Api.Controllers
@@ -36,6 +38,7 @@ namespace PayX.Api.Controllers
 
         // Post: currencies
         [HttpPost]
+        [Authorize(Roles = nameof(Role.Admin))]
         public async Task<ActionResult<CurrencyResource>> CreateCurrency([FromBody] string currencyName)
         {
             var newCurrency = await _service.CreateCurrency(currencyName);
