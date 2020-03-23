@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using PayX.Core;
+using PayX.Core.Exceptions;
 using PayX.Core.Models.Auth;
 using PayX.Core.Services;
 
@@ -19,13 +20,14 @@ namespace PayX.Service
         {
             var user = await _unitOfWork.Users.GetByEmail(email);
 
-            var isValid = BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password);
+            var isValid = (user != null && BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password));
             if (isValid)
             {
                 return user;
             }
 
-            throw new Exception();
+            throw new HttpResponseException("User or password invalid.")
+                .BadRequest("Invalid credentials");
         }
 
         public async Task<User> SignUpAsync(string email, string password)

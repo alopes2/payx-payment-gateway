@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using PayX.Api.Models;
+using PayX.Core.Exceptions;
 using Serilog;
 
 namespace PayX.Api.Middlewares
@@ -36,9 +37,21 @@ namespace PayX.Api.Middlewares
             var details = new ErrorDetails()
             {
                 StatusCode = HttpStatusCode.InternalServerError,
-                Message = exception.Message,
+                Message = $"Exception message: {exception.Message}.",
                 Title = "An unexpected error occurred."
             };
+
+            if (exception.InnerException != null)
+            {
+                details.Message += $" Inner message: {exception.InnerException.Message}";
+            }
+
+            if (exception is HttpResponseException httpResponseException)
+            {
+                details.StatusCode = httpResponseException.StatusCode;
+                details.Message = httpResponseException.Message;
+                details.Title = httpResponseException.Title;
+            }
 
             await WriteResponse(context, details);
         }

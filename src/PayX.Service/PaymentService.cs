@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PayX.Bank.Models;
 using PayX.Bank.Services;
 using PayX.Core;
+using PayX.Core.Exceptions;
 using PayX.Core.Models;
 using PayX.Core.Services;
 
@@ -33,9 +34,14 @@ namespace PayX.Service
             var payment = await _unitOfWork.Payments
                 .GetWithCurrencyByIdAsync(paymentId);
 
+            if (payment is null)
+            {
+                throw new HttpResponseException("Payment not found.").NotFound();
+            }
+
             if (!payment.UserId.Equals(userId))
             {
-                throw new Exception();
+                throw new HttpResponseException("You are not allowed to view this payment.").Forbidden();
             }
 
             return payment;
@@ -49,7 +55,8 @@ namespace PayX.Service
 
             if (currency is null)
             {
-                throw new Exception($"Currency of Id {newPayment.CurrencyId} could not be found.");
+                throw new HttpResponseException($"Currency of Id {newPayment.CurrencyId} could not be found.")
+                    .BadRequest();
             }
 
             var bankPayment = new BankPayment
