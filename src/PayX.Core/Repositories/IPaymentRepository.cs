@@ -7,8 +7,8 @@ namespace PayX.Core.Repositories
 {
     public interface IPaymentRepository : IRepository<Payment>
     { 
-        Task<IEnumerable<Payment>> GetAllWithCurrentyAsync();
+        Task<IEnumerable<Payment>> GetAllWithCurrencyByUserIdAsync(Guid userId);
         
-        Task<Payment> GetWithCurrentyByIdAsync(Guid id);
+        Task<Payment> GetWithCurrencyByIdAsync(Guid id);
     }
 }

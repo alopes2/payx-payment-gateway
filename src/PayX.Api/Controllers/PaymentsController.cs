@@ -34,7 +34,10 @@ namespace PayX.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PaymentResource>>> GetPayments()
         {
-            var payments = await _service.GetAllPayments();
+            var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
+            var userId = new Guid(userIdClaim.Value);
+            
+            var payments = await _service.GetAllUserPayments(userId);
 
             var paymentResources = 
                 _mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentResource>>(payments);
@@ -46,7 +49,10 @@ namespace PayX.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PaymentResource>> GetPaymentById([FromRoute] Guid id)
         {
-            var payment = await _service.GetPaymentById(id);
+            var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
+            var userId = new Guid(userIdClaim.Value);
+
+            var payment = await _service.GetUserPaymentById(id, userId);
 
             var paymentResource = _mapper.Map<Payment, PaymentResource>(payment);
 
@@ -57,11 +63,15 @@ namespace PayX.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentResource>> ProcessPayment([FromBody] ProcessPaymentResource processPaymentResource)
         {
-            var paymentToProcess = _mapper.Map<ProcessPaymentResource, Payment>(processPaymentResource);
+            var userIdClaim = User.Claims.SingleOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier));
+            var userId = new Guid(userIdClaim.Value);
 
+            var paymentToProcess = _mapper.Map<ProcessPaymentResource, Payment>(processPaymentResource);
+            paymentToProcess.UserId = userId;
+            
             var newPayment = await _service.ProcessPayment(paymentToProcess);
 
-            var payment = await _service.GetPaymentById(newPayment.Id);
+            var payment = await _service.GetUserPaymentById(newPayment.Id, userId);
 
             var paymentResource = _mapper.Map<Payment, PaymentResource>(payment);
 

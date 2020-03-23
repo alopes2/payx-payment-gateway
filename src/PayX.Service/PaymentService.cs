@@ -16,18 +16,23 @@ namespace PayX.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Payment>> GetAllPayments()
+        public async Task<IEnumerable<Payment>> GetAllUserPayments(Guid userId)
         {
             var payments = await _unitOfWork.Payments
-                .GetAllWithCurrentyAsync();
+                .GetAllWithCurrencyByUserIdAsync(userId);
 
             return payments;
         }
 
-        public async Task<Payment> GetPaymentById(Guid paymentId)
+        public async Task<Payment> GetUserPaymentById(Guid paymentId, Guid userId)
         {
             var payment = await _unitOfWork.Payments
-                .GetWithCurrentyByIdAsync(paymentId);
+                .GetWithCurrencyByIdAsync(paymentId);
+
+            if (!payment.UserId.Equals(userId))
+            {
+                throw new Exception();
+            }
 
             return payment;
         }
