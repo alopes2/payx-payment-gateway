@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PayX.Core;
+using PayX.Core.Exceptions;
 using PayX.Core.Models;
 using PayX.Core.Services;
 
@@ -25,9 +26,17 @@ namespace PayX.Service
 
         public async Task<Currency> CreateCurrencyAsync(string currencyName)
         {
+            var normalizedName = currencyName.ToUpper();
+            var existingCurrency = await _unitOfWork.Currencies.SingleOrDefaultAsync(c => c.Name.Equals(normalizedName));
+            if (existingCurrency != null)
+            {
+                throw new HttpResponseException("Currency with this name already exists.")
+                    .BadRequest();
+            }
+
             var currency = new Currency
             {
-                Name = currencyName
+                Name = normalizedName
             };
             
             await _unitOfWork.Currencies.AddAsync(currency);
