@@ -18,7 +18,8 @@ namespace PayX.Service
 
         public async Task<User> SignInAsync(string email, string password)
         {
-            var user = await _unitOfWork.Users.GetByEmail(email);
+            var normalizedEmail = email.ToLower();
+            var user = await _unitOfWork.Users.GetByEmail(normalizedEmail);
 
             var isValid = (user != null && BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password));
             if (isValid)
@@ -32,9 +33,17 @@ namespace PayX.Service
 
         public async Task<User> SignUpAsync(string email, string password)
         {
+            var normalizedEmail = email.ToLower();
+            var existingUser = _unitOfWork.Users.SingleOrDefaultAsync(u => u.Email.Equals(normalizedEmail));
+            if (existingUser != null)
+            {
+                throw new HttpResponseException("User with this email already exists.")
+                    .BadRequest("Email in use");
+            }
+
             var user = new User
             {
-                Email = email,
+                Email = normalizedEmail,
                 Password = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 12)
             };
 

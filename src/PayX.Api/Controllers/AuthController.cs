@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -24,18 +25,27 @@ namespace PayX.Api.Controllers
         private readonly JwtSettings _jwtSettings;
 
         private readonly IAuthService _service;
+        private readonly IValidator<AuthResource> _validator;
 
         public AuthController(
             IAuthService service,
-            IOptionsSnapshot<JwtSettings> jwtSettings)
+            IOptionsSnapshot<JwtSettings> jwtSettings,
+            IValidator<AuthResource> validator)
         {
             _service = service;
+            _validator = validator;
             _jwtSettings = jwtSettings.Value;
         }
 
         [HttpPost("signup")]
         public async Task<ActionResult<string>> SignUp([FromBody] AuthResource credentials)
         {
+            var validationResult = _validator.Validate(credentials);
+            if(!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
             var user = await _service.SignUpAsync(credentials.Email, credentials.Password);
 
             return GenerateJwtToken(user);
@@ -44,6 +54,12 @@ namespace PayX.Api.Controllers
         [HttpPost("signin")]
         public async Task<ActionResult<string>> SignIn([FromBody] AuthResource credentials)
         {
+            var validationResult = _validator.Validate(credentials);
+            if(!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            
             var user = await _service.SignInAsync(credentials.Email, credentials.Password);
 
             return GenerateJwtToken(user);
