@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PayX.Bank.Models;
+using PayX.Bank.Services;
 using PayX.Core;
 using PayX.Core.Models;
 using PayX.Core.Services;
@@ -10,9 +12,11 @@ namespace PayX.Service
     public class PaymentService : IPaymentService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBankService _bankSerice;
 
-        public PaymentService(IUnitOfWork unitOfWork)
+        public PaymentService(IUnitOfWork unitOfWork, IBankService bankSerice)
         {
+            _bankSerice = bankSerice;
             _unitOfWork = unitOfWork;
         }
 
@@ -39,8 +43,29 @@ namespace PayX.Service
 
         public async Task<Payment> ProcessPayment(Payment newPayment)
         {
-            newPayment.Id = Guid.NewGuid();
-            newPayment.IsSuccessful = new Random().NextDouble() >= 0.5d;
+            var currency = await _unitOfWork
+                .Currencies
+                .GetByIdAsync(newPayment.CurrencyId);
+
+            if (currency is null)
+            {
+                throw new Exception($"Currency of Id {newPayment.CurrencyId} could not be found.");
+            }
+
+            var bankPayment = new BankPayment
+            {
+                Amount = newPayment.Amount,
+                CardNumber = newPayment.CardNumber,
+                Currency = currency.Name,
+                Cvv = newPayment.Cvv,
+                ExpirationMonth = newPayment.ExpirationMonth,
+                ExpirationYear = newPayment.ExpirationYear, 
+            };
+
+            var result = await _bankSerice.ProcessPayment(bankPayment);
+
+            newPayment.Id = result.Id;
+            newPayment.IsSuccessful = result.Status == BankPaymentStatus.Succcessful;
             newPayment.CreatedAt = DateTime.Now;
 
             await _unitOfWork.Payments.AddAsync(newPayment);

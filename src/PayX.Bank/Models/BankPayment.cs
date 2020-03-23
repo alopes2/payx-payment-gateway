@@ -4,8 +4,6 @@ namespace PayX.Bank.Models
 {
     public class BankPayment
     {
-        public Guid Id { get; set; }
-
         public string CardNumber { get; set; }
 
         public int Cvv { get; set; }
@@ -17,7 +15,5 @@ namespace PayX.Bank.Models
         public decimal Amount { get; set; }
 
         public string Currency { get; set; }
-
-        public bool IsSuccessful { get; set; }
     }
 }

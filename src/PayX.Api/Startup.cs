@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using PayX.Api.Configurations;
 using PayX.Api.Extensions;
 using PayX.Api.Metrics;
+using PayX.Bank.Services;
 using PayX.Core;
 using PayX.Core.Services;
 using PayX.Data;
@@ -58,6 +59,7 @@ namespace PayX.Api
             services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IBankService, BankService>();
 
             services.AddAutoMapper(typeof(Startup));
 

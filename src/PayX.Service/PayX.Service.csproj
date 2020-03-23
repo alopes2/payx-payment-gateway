@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayX.Core\PayX.Core.csproj" />
+    <ProjectReference Include="..\PayX.Bank\PayX.Bank.csproj" />
   </ItemGroup>
 
   <ItemGroup>
