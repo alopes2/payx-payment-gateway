@@ -57,6 +57,7 @@ namespace PayX.Api
             services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IEncryptionService, EncryptionService>();
             services.AddTransient<IBankService, BankService>();
 
             services.AddTransient<IValidator<AuthResource>, AuthResourceValidator>();

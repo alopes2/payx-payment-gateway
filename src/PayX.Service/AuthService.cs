@@ -10,9 +10,11 @@ namespace PayX.Service
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEncryptionService _encryptionService;
 
-        public AuthService(IUnitOfWork unitOfWork)
+        public AuthService(IUnitOfWork unitOfWork, IEncryptionService encryptionService)
         {
+            _encryptionService = encryptionService;
             _unitOfWork = unitOfWork;
         }
 
@@ -21,7 +23,7 @@ namespace PayX.Service
             var normalizedEmail = email.ToLower();
             var user = await _unitOfWork.Users.GetByEmail(normalizedEmail);
 
-            var isValid = (user != null && BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password));
+            var isValid = (user != null && _encryptionService.Verify(password, user.Password));
             if (isValid)
             {
                 return user;
@@ -44,7 +46,7 @@ namespace PayX.Service
             var user = new User
             {
                 Email = normalizedEmail,
-                Password = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 12)
+                Password = _encryptionService.Hash(password)
             };
 
             await _unitOfWork.Users.AddAsync(user);
