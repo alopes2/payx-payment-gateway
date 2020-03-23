@@ -47,7 +47,7 @@ namespace PayX.Service
             return payment;
         }
 
-        public async Task<Payment> ProcessPaymentAsync(Payment newPayment)
+        public async Task<Payment> ProcessPaymentAsync(Payment newPayment, Guid userId)
         {
             var currency = await _unitOfWork
                 .Currencies
@@ -74,6 +74,7 @@ namespace PayX.Service
             newPayment.Id = result.Id;
             newPayment.IsSuccessful = result.Status == BankPaymentStatus.Succcessful;
             newPayment.CreatedAt = DateTime.Now;
+            newPayment.UserId = userId;
 
             await _unitOfWork.Payments.AddAsync(newPayment);
             await _unitOfWork.CommitAsync();

@@ -11,6 +11,6 @@ namespace PayX.Core.Services
 
         Task<Payment> GetUserPaymentByIdAsync(Guid paymentId, Guid userId);
 
-        Task<Payment> ProcessPaymentAsync(Payment newPayment);
+        Task<Payment> ProcessPaymentAsync(Payment newPayment, Guid userId);
     }
 }
