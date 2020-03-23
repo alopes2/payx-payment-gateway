@@ -7,6 +7,6 @@ namespace PayX.Api.Metrics
         /// <summary>
         /// Total number of exceptions thrown counter.
         /// </summary>
-        Counter ExceptionsCounter { get; }         
+        Counter UnhandledExceptionsCounter { get; }         
     }
 }

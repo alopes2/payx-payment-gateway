@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using PayX.Api.Metrics;
+using PayX.Core.Exceptions;
 
 namespace PayX.Api.Middlewares
 {
@@ -25,7 +26,12 @@ namespace PayX.Api.Middlewares
             }
             catch(Exception e)
             {
-                _metricsService.ExceptionsCounter.Inc();
+                // Should only log unhandled and impredicted exceptions
+                if (e.GetType() != typeof(HttpResponseException))
+                {
+                    _metricsService.UnhandledExceptionsCounter.Inc();
+                }
+                
                 throw e;
             }
         }

@@ -9,15 +9,15 @@ namespace PayX.Api.Metrics
         /// <summary>
         /// Total number of exceptions.
         /// </summary>
-        public Counter ExceptionsCounter { get; private set; }
+        public Counter UnhandledExceptionsCounter { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceMetrics"/> class.
         /// </summary>
         public MetricsService()
         {
-            ExceptionsCounter = Prometheus.Metrics.CreateCounter(
-                name: $"{ApplicationPrefix}_exceptions_total",
+            UnhandledExceptionsCounter = Prometheus.Metrics.CreateCounter(
+                name: $"{ApplicationPrefix}_unhandled_exceptions_total",
                 help: "Total count of unhandled exceptions");
         }        
     }
