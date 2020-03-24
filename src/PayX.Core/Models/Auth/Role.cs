@@ -2,7 +2,7 @@ namespace PayX.Core.Models.Auth
 {
     public enum Role
     {
-        Admin,
+        Admin = 1,
         Merchant
     }
 }

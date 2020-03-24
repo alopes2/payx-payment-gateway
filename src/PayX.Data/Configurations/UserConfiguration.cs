@@ -20,7 +20,7 @@ namespace PayX.Data.Configurations
             builder
                 .Property(c => c.Email)
                 .IsRequired();
-                
+
             builder
                 .Property(c => c.Password)
                 .IsRequired();
@@ -33,6 +33,30 @@ namespace PayX.Data.Configurations
             builder
                 .HasIndex(c => c.Email)
                 .IsUnique();
+
+            builder
+                .HasMany(u => u.Payments)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId);
+
+            SeedUsers(builder);
+        }
+
+        private static void SeedUsers(EntityTypeBuilder<User> builder)
+        {
+            var seedUsers = new User[]
+            {
+                new User
+                {
+                    Id = new Guid("5c6e15ff-508f-487a-a753-1119e831eabb"),
+                    Email = "admin@payx.io",
+                    Password = "$2a$12$iSfNL2fnxQN1hLVXd8PcT.5aorGzJFS8ARBZpDaEJkkQ8eniLP9X6",
+                    Role = Role.Admin
+                }
+            };
+
+            builder
+                .HasData(seedUsers);
         }
     }
 }
