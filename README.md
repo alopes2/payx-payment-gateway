@@ -6,6 +6,83 @@ PayX is a Payment Gateway API designed to easily allow shoppers to process bank 
 
 * .NET Core SDK 3.1.200
 * Microsoft SQL Server 2019 - Developer Edition
+* Docker (For container image management)
+
+## Setup
+
+### Work directory
+
+Navigate to the `src` folder and use it as the work directory in your command line.
+
+
+### Environment
+
+Set your .NET Core environment to Development by setting the Enviroement Variable `ASPNETCORE_ENVIRONMENT` to `Development`.
+
+### Database configuration
+
+Check your `server` database in the `Default` property of the `ConnectionStrings` section in `appsetting.Development.json`, mine is `localhost` because of SQL Server 2019.
+If you are using SQL Express it should be `.\SQLExpress`.
+
+Change the `user id` and `password` for a user with admin access in your SQL Server database.
+You can also user `sa` user and change its password to the one I'm using here `MyComplexPassword!234`.
+
+In my file I have this:
+
+```
+server=localhost; database=PayX; user id=sa; password=MyComplexPassword!234
+```
+
+Where `server` is my database server, `database` is the PayX database, `user id` is a user with admin access to your database server and `password` is this users password.
+
+### Dependencies restore
+
+Restore all packages with:
+
+```
+dotnet restore
+```
+
+### Create database
+
+Now let's create our database structure with:
+
+```
+dotnet ef --startup-project ./PayX.Api/PayX.Api.csproj database update
+```
+
+### Application run
+
+To run the application just run the following command:
+
+```
+dotnet run -p ./PayX.Api/PayX.Api.csproj
+```
+
+You can access the application on the follwing URL:
+
+```
+http://localhost:5000
+```
+
+### Authenticate
+
+A default **Admin** user is seeded to the database. You can authenticated by entering the following credentials in the `/signin` endpoint through swagger UI:
+
+```
+email: admin@payx.io
+password: 1234
+```
+
+The endpoint will return a valid JWT Token. You can copy it then click on the `Authorize` green button
+and then enter the words `Bearer` following by the JWT Token, like the example below:
+
+```
+Bearer <JWT_TOKEN>
+```
+
+Then click on the small `Authorize` green button and then on `Close`.
+Now you should be authenticated to use the API.
 
 ## The project
 
@@ -89,10 +166,15 @@ Mappings between Domain and Resource models is done using AutoMapper package.
 
 Mapping profile is defined in the `Mappings` folder in `MappingProfile.cs`.
 
+### Docker
+
+A Dockerfile was written to allow the build of docker production image.
+
 ### Continuous Integration Pipeline
 
 A continuous integration pipeline was set using [Travis CI](https://travis-ci.com/) .
 It is set to build and tests the application.
+It generates and pushes a docker production image to docker hub.
 It also generates and push our code coverage to [Codecov](https://codecov.io/) .
 
 You can check pipeline and code coverage status through the **badges** in this README file.
@@ -106,6 +188,7 @@ You can check pipeline and code coverage status through the **badges** in this R
 * [Swashbuckle 5.1.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - ASPNET.Core API documentation
 * [AutoMapper 9.0.0](https://github.com/AutoMapper/AutoMapper) - Mapping package
 * [Coverlet](https://github.com/tonerdo/coverlet) - Code coverage generation package - **coverlet.msbuild** and **coverlet.collector** are the depencies packages needed
+* [BCrypt 3.3.3](https://github.com/BcryptNet/bcrypt.net) - Encryption package
 
 ## Improvement Points
 
