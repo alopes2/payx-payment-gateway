@@ -32,6 +32,18 @@ This is our application’s foundation, it will hold our contracts (interfaces, 
 
 This is our Acquiring Bank implementation (here we are mocking a banking service).
 
+### PayX.UnitTests
+
+Here are the **Unit Tests** for our projects. To run them just go to the `src` folder and run:
+
+`dotnet test`
+
+It is also set to generate a code coverage file with `coverlet` . To generate a coverage file just run:
+
+`dotnet test ./src/PayX.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover`
+
+This will generate a `coverage.opencover.xml` file in the `PayX.UnitTests` project folder.
+
 ## Features
 
 ### Repository and Unit of Work pattern
@@ -77,6 +89,14 @@ Mappings between Domain and Resource models is done using AutoMapper package.
 
 Mapping profile is defined in the `Mappings` folder in `MappingProfile.cs`.
 
+### Continuous Integration Pipeline
+
+A continuous integration pipeline was set using [Travis CI](https://travis-ci.com/) .
+It is set to build and tests the application.
+It also generates and push our code coverage to [Codecov](https://codecov.io/) .
+
+You can check pipeline and code coverage status through the **badges** in this README file.
+
 ## Dependencies
 
 * [.NET Core SDK 3.1.200](https://dotnet.microsoft.com/download/dotnet-core/3.1) - C# Backend Framework
@@ -85,3 +105,4 @@ Mapping profile is defined in the `Mappings` folder in `MappingProfile.cs`.
 * [Prometheus-net 3.5.0](https://github.com/prometheus-net/prometheus-net) - Metrics package
 * [Swashbuckle 5.1.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - ASPNET.Core API documentation
 * [AutoMapper 9.0.0](https://github.com/AutoMapper/AutoMapper) - Mapping package
+* [Coverlet](https://github.com/tonerdo/coverlet) - Code coverage generation package - **coverlet.msbuild** and **coverlet.collector** are the depencies packages needed
