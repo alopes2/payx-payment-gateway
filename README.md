@@ -1,6 +1,11 @@
-# PayX - Payment Gateway API
+# PayX - Payment Gateway API [![Build Status](https://travis-ci.com/alopes2/payx-payment-gateway.svg?branch=master)](https://travis-ci.com/alopes2/payx-payment-gateway)
 
 PayX is a Payment Gateway API designed to easily allow shoppers to process bank payments.
+
+## Requirements
+
+* .NET Core SDK 3.1.200
+* Microsoft SQL Server 2019 - Developer Edition
 
 ## The project
 
