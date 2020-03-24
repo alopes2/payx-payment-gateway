@@ -1,4 +1,4 @@
-# PayX - Payment Gateway API [![Build Status](https://travis-ci.com/alopes2/payx-payment-gateway.svg?branch=master)](https://travis-ci.com/alopes2/payx-payment-gateway)
+# PayX - Payment Gateway API [![Build Status](https://travis-ci.com/alopes2/payx-payment-gateway.svg?branch=master)](https://travis-ci.com/alopes2/payx-payment-gateway) [![codecov](https://codecov.io/gh/alopes2/payx-payment-gateway/branch/master/graph/badge.svg)](https://codecov.io/gh/alopes2/payx-payment-gateway)
 
 PayX is a Payment Gateway API designed to easily allow shoppers to process bank payments.
 

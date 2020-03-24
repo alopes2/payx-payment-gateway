@@ -6,5 +6,8 @@ install:
   - dotnet restore ./src/PayX.sln
 
 script:
-  - dotnet build ./src/PayX.sln
-  - dotnet test ./src/PayX.sln
+  - dotnet build ./src/PayX.sln -c Release
+  - dotnet test ./src/PayX.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+after_script: 
+  - bash <(curl -s https://codecov.io/bash)
