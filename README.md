@@ -12,7 +12,9 @@ PayX is a Payment Gateway API designed to easily allow shoppers to process bank 
 
 ### Work directory
 
-Navigate to the `src` folder and use it as the work directory in your command line.
+Make sure that your work directory is the `src` folder and not the root folder.
+
+If it is not, navigate to the `src` folder and use it as the work directory in your command line.
 
 
 ### Environment
@@ -45,6 +47,12 @@ dotnet restore
 
 ### Create database
 
+If you don't have the dotnet-ef cli tool, install with:
+
+```
+dotnet tool install --global dotnet-ef
+```
+
 Now let's create our database structure with:
 
 ```
@@ -59,10 +67,11 @@ To run the application just run the following command:
 dotnet run -p ./PayX.Api/PayX.Api.csproj
 ```
 
-You can access the application on the follwing URL:
+You can access the application on one of the following URLs::
 
 ```
 http://localhost:5000
+https://localhost:5001
 ```
 
 ### Authenticate
@@ -88,6 +97,17 @@ Now you should be authenticated to use the API.
 
 The solution is a multi-layer API designed in 5 projects.
 The main point behind this approach is that we can provide a better separation of concerns and to decouple one project from another.
+
+### Basic Behaviour
+
+The basic behaviour is allow a Merchant to process payments and retrive payments information.
+Some behaviours to consider:
+* A Merchant can only process payments if it is registered and logged into the API (have a valid JWT Token)
+* Merchant can only retrieve payments information from payments that he sent to process. For example:
+    * Merchant with email "test@test.com" cannot see payments from Merchant with email "otherTest@test.com".
+    * In this implementation not even admins can see other merchants payments
+* Only admins can add new currencies
+* Anyone can see supported currencies
 
 ### PayX.Api
 
@@ -122,6 +142,11 @@ It is also set to generate a code coverage file with `coverlet` . To generate a 
 This will generate a `coverage.opencover.xml` file in the `PayX.UnitTests` project folder.
 
 ## Features
+
+### Swashbuckle (Swagger)
+
+Swagger was added to present a nice UI for interacting with the API and add documentation.
+Also it was configured so that you can authenticated with a valid JWT Token with the green `Authorize` button.
 
 ### Repository and Unit of Work pattern
 
@@ -160,6 +185,8 @@ Also a custom metrics was set for counting the number of Exceptions thrown in th
 
 Note that if more metrics are required, you just need to add a property to `MetricsService.cs` and initialize it in there with Prometheus-net.
 
+You can check metrics by going to `/metrics` URL (like: `http://localhost:5000/metrics`).
+
 ### Object Mapping
 
 Mappings between Domain and Resource models is done using AutoMapper package.
@@ -169,6 +196,18 @@ Mapping profile is defined in the `Mappings` folder in `MappingProfile.cs`.
 ### Docker
 
 A Dockerfile was written to allow the build of docker production image.
+
+### Unit Tests
+
+A few unit tests were implemented.
+
+Also it is able to generate a code coverage reports by running the following code in the solution folder:
+
+```
+dotnet test ./src/PayX.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+```
+
+This will generate a opencover report in the PayX.UnitTests folder.
 
 ### Continuous Integration Pipeline
 
@@ -192,13 +231,13 @@ You can check pipeline and code coverage status through the **badges** in this R
 
 ## Improvement Points
 
-### Code Coverage - Tests
+### Tests
 
 More tests can be written to increase code coverage and confiability.
 
 ### Authorization
 
-Authorization is done in a basic **login-password** approach, it could be improved in a implementation where the Merchant wouldn't need to login to get a new JWT token.
+Authorization is done in a basic **email-password** approach, it could be improved in a implementation where the Merchant wouldn't need to login to get a new JWT token. Or even not use email and just a username.
 
 ### Encryption
 
@@ -207,3 +246,7 @@ Encryption could be added for saving critical payment information and/or Acquiri
 ### Throttling
 
 Throttling could be applied for limitting number of requests per second to protect against attacks.
+
+### JWT Token Generation
+
+GenerateToken method in AuthController could be extracted to a JwtService class.
