@@ -26,6 +26,7 @@ namespace PayX.Api.Controllers
         private readonly JwtSettings _jwtSettings;
 
         private readonly IAuthService _service;
+        
         private readonly IValidator<AuthResource> _validator;
 
         public AuthController(
