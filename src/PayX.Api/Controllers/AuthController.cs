@@ -17,9 +17,10 @@ using PayX.Core.Services;
 
 namespace PayX.Api.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     [AllowAnonymous]
+    [Route("[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly JwtSettings _jwtSettings;
