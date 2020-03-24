@@ -106,3 +106,21 @@ You can check pipeline and code coverage status through the **badges** in this R
 * [Swashbuckle 5.1.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) - ASPNET.Core API documentation
 * [AutoMapper 9.0.0](https://github.com/AutoMapper/AutoMapper) - Mapping package
 * [Coverlet](https://github.com/tonerdo/coverlet) - Code coverage generation package - **coverlet.msbuild** and **coverlet.collector** are the depencies packages needed
+
+## Improvement Points
+
+### Code Coverage - Tests
+
+More tests can be written to increase code coverage and confiability.
+
+### Authorization
+
+Authorization is done in a basic **login-password** approach, it could be improved in a implementation where the Merchant wouldn't need to login to get a new JWT token.
+
+### Encryption
+
+Encryption could be added for saving critical payment information and/or Acquiring Bank connections.
+
+### Throttling
+
+Throttling could be applied for limitting number of requests per second to protect against attacks.

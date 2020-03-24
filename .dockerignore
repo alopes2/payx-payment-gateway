@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+**/out/
+**/TestResults/
+*.opencover.xml
+.gitignore
+.travis.yml
+README.md
